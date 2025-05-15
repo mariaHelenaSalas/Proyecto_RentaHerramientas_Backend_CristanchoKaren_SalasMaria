@@ -33,6 +33,21 @@ public class Tool {
     private String imageUrl;
 
     public enum Status {
-        AVAILABLE, RENTED, UNDER_MAINTENANCE
+        AVAILABLE, RENTED, UNDER_MAINTENANCE, DISPONIBLE, ALQUILADO
+    }
+
+    public void setCostoAlquiler(double costoAlquiler) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setCostoAlquiler'");
+    }
+
+    public void setEstado(Status disponible) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setEstado'");
+    }
+
+    public Object getEstado() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getEstado'");
     }
 }

@@ -2,14 +2,11 @@ package com.proyecto.proyecto_renta.application.services;
 
 import java.util.List;
 
+import com.proyecto.proyecto_renta.domain.entities.Notification;
+
 public interface INotificationService {
-    List<String> findAll();
-
-    String findById(Long id);
-
-    String save(String notification);
-    
+    List<Notification> findAll();
+    Notification findById(Long id);
+    Notification save(Notification notification);
     void deleteById(Long id);
-
-
 }

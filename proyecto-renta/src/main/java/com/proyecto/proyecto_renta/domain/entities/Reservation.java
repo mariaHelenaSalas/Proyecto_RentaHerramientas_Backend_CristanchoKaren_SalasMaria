@@ -31,6 +31,21 @@ public class Reservation {
     private Status status;
 
     public enum Status {
-        PENDING, CONFIRMED, COMPLETED, CANCELLED
+        PENDING, CONFIRMED, COMPLETED, CANCELLED, PENDIENTE
+    }
+
+    public void setHerramienta(Tool herramienta) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setHerramienta'");
+    }
+
+    public void setFechaFin(LocalDate fechaFin) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setFechaFin'");
+    }
+
+    public void setEstado(Status pendiente) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setEstado'");
     }
 }
