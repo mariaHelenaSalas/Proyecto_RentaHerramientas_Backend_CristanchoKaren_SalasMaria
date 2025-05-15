@@ -8,5 +8,5 @@ public interface IUserService {
     List<User> findAll();
     User findById(Long id);
     User save(User user);
-    void deleteBydyId(Long id);
+    void deleteById(Long id);
 }

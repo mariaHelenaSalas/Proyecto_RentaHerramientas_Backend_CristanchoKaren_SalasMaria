@@ -8,5 +8,5 @@ public interface IInvoiceService {
     List<Invoice> findAll();
     Invoice findById(Long id);
     Invoice save(Invoice invoice);
-    void deleteBydyId(Long id);
+    void deleteById(Long id);
 }
