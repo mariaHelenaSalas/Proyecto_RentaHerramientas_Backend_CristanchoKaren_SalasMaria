@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ProyectoRentaApplication<proyecto-renta>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.proyecto.proyecto_renta.ProyectoRentaApplication",
+            "projectName": "proyecto-renta",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
