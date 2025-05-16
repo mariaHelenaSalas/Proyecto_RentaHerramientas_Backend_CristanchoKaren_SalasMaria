@@ -5,9 +5,9 @@ import lombok.Data;
 
 @Data
 @Entity
-@Table(name = "Clients")
+@Table(name = "clients")
 public class Client {
-    @Id
+   @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idClient;
 
@@ -15,7 +15,10 @@ public class Client {
     @JoinColumn(name = "id_user", nullable = false, unique = true)
     private User user;
 
+    @Column(length = 15)
     private String phone;
+
+    @Column(columnDefinition = "TEXT")
     private String address;
 }
 

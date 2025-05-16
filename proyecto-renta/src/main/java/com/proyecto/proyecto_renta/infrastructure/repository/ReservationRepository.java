@@ -1,11 +1,8 @@
 package com.proyecto.proyecto_renta.infrastructure.repository;
 
-import java.util.List;
-
-import org.springframework.data.repository.CrudRepository;
-
 import com.proyecto.proyecto_renta.domain.entities.Reservation;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ReservationRepository extends CrudRepository<Reservation, Long> {
-    List<Reservation> findByClientId(Long clientId);
+public interface ReservationRepository extends JpaRepository<Reservation, Long> {
+    
 }

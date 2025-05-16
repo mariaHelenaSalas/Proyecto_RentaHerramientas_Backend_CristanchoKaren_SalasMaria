@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "Invoices")
+@Table(name = "invoices")
 public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,5 +23,5 @@ public class Invoice {
     @Column(nullable = false, updatable = false)
     private LocalDateTime generationDate = LocalDateTime.now();
 
-    private String pdfFileUrl;
+    private String pdfUrl;
 }

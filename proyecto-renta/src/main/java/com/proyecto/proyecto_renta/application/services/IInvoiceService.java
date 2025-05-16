@@ -1,12 +1,13 @@
 package com.proyecto.proyecto_renta.application.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.proyecto.proyecto_renta.domain.entities.Invoice;
 
 public interface IInvoiceService {
     List<Invoice> findAll();
-    Invoice findById(Long id);
+    Optional<Invoice> findById(Long id);
     Invoice save(Invoice invoice);
-    void deleteBydyId(Long id);
+    void deleteById(Long id);
 }

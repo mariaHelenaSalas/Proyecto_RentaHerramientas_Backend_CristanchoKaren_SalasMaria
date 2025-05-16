@@ -15,6 +15,9 @@ public class Provider {
     @JoinColumn(name = "id_user", nullable = false, unique = true)
     private User user;
 
+    @Column(length = 15)
     private String phone;
+
+    @Column(columnDefinition = "TEXT")
     private String address;
 }
