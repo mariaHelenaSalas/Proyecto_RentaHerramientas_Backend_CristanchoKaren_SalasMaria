@@ -20,29 +20,29 @@ import com.proyecto.proyecto_renta.domain.entities.Notification;
 public class NotificationController {
 
     @Autowired
-  private INotificationService service;
+    private INotificationService service;
 
-  @GetMapping
-  public ResponseEntity<List<Notification>> list() {
-    return ResponseEntity.ok(service.findAll());
-  }
+    @GetMapping
+    public ResponseEntity<List<Notification>> list() {
+        return ResponseEntity.ok(service.findAll());
+    }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<Notification> getOne(@PathVariable Long id) {
-    return ResponseEntity.ok(service.findById(id));
-  }
+    @GetMapping("/{id}")
+    public ResponseEntity<Notification> getOne(@PathVariable Long id) {
+        return service.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-  @PostMapping
-  public ResponseEntity<Notification> create(@RequestBody Notification n) {
-    return ResponseEntity.ok(service.save(n));
-  }
+    @PostMapping
+    public ResponseEntity<Notification> create(@RequestBody Notification notification) {
+        return ResponseEntity.ok(service.save(notification));
+    }
 
-  
-
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable Long id) {
-    service.deleteById(id);
-    return ResponseEntity.noContent().build();
-  }
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
+

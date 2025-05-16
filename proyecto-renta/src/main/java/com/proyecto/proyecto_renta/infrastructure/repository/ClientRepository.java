@@ -1,12 +1,8 @@
 package com.proyecto.proyecto_renta.infrastructure.repository;
 
-import org.springframework.data.repository.CrudRepository;
-
 import com.proyecto.proyecto_renta.domain.entities.Client;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ClientRepository extends CrudRepository<Client, Long> {
+public interface ClientRepository extends JpaRepository<Client, Long> {
     
-
-
-
 }

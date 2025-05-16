@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "Histories")
+@Table(name = "histories")
 public class History {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,8 +39,13 @@ public class History {
     @Column(nullable = false, updatable = false)
     private LocalDateTime eventDate = LocalDateTime.now();
 
-    public enum Event {
-        RESERVATION_CREATED, RESERVATION_CONFIRMED, RESERVATION_CANCELLED,
-        PAYMENT_MADE, RETURN_RECEIVED, EQUIPMENT_DAMAGE_REPORTED, REMINDER_SENT
+      public enum Event {
+        RESERVATION_CREATED,
+        RESERVATION_CONFIRMED,
+        RESERVATION_CANCELLED,
+        PAYMENT_COMPLETED,
+        RETURN_RECEIVED,
+        TOOL_DAMAGED_REPORTED,
+        REMINDER_SENT
     }
 }

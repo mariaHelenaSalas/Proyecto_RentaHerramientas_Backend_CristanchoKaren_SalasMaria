@@ -20,28 +20,29 @@ import com.proyecto.proyecto_renta.domain.entities.Invoice;
 public class InvoiceController {
 
     @Autowired
-  private IInvoiceService service;
+    private IInvoiceService service;
 
-  @GetMapping
-  public ResponseEntity<List<Invoice>> list() {
-    return ResponseEntity.ok(service.findAll());
-  }
+    @GetMapping
+    public ResponseEntity<List<Invoice>> list() {
+        return ResponseEntity.ok(service.findAll());
+    }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<Invoice> getOne(@PathVariable Long id) {
-    return ResponseEntity.ok(service.findById(id));
-  }
+    @GetMapping("/{id}")
+    public ResponseEntity<Invoice> getOne(@PathVariable Long id) {
+        return service.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-  @PostMapping
-  public ResponseEntity<Invoice> create(@RequestBody Invoice i) {
-    return ResponseEntity.ok(service.save(i));
-  }
+    @PostMapping
+    public ResponseEntity<Invoice> create(@RequestBody Invoice invoice) {
+        return ResponseEntity.ok(service.save(invoice));
+    }
 
-
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable Long id) {
-    service.deleteById(id);
-    return ResponseEntity.noContent().build();
-  }
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
+

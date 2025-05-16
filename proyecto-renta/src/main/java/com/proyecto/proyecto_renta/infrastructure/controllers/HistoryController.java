@@ -20,30 +20,29 @@ import com.proyecto.proyecto_renta.domain.entities.History;
 public class HistoryController {
 
     @Autowired
-  private IHistoryService service;
+    private IHistoryService service;
 
-  @GetMapping
-  public ResponseEntity<List<History>> list() {
-    return ResponseEntity.ok(service.findAll());
-  }
+    @GetMapping
+    public ResponseEntity<List<History>> list() {
+        return ResponseEntity.ok(service.findAll());
+    }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<History> getOne(@PathVariable Long id) {
-    return ResponseEntity.ok(service.findById(id));
-  }
+    @GetMapping("/{id}")
+    public ResponseEntity<History> getOne(@PathVariable Long id) {
+        return service.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-  @PostMapping
-  public ResponseEntity<History> create(@RequestBody History h) {
-    return ResponseEntity.ok(service.save(h));
-  }
+    @PostMapping
+    public ResponseEntity<History> create(@RequestBody History history) {
+        return ResponseEntity.ok(service.save(history));
+    }
 
- 
-
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable Long id) {
-    service.deleteById(id);
-    return ResponseEntity.noContent().build();
-  }
-
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
+

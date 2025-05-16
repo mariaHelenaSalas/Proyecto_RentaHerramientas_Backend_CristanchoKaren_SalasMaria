@@ -20,29 +20,29 @@ import com.proyecto.proyecto_renta.domain.entities.Return;
 public class ReturnController {
 
     @Autowired
-  private IReturnService service;
+    private IReturnService service;
 
-  @GetMapping
-  public ResponseEntity<List<Return>> list() {
-    return ResponseEntity.ok(service.findAll());
-  }
+    @GetMapping
+    public ResponseEntity<List<Return>> list() {
+        return ResponseEntity.ok(service.findAll());
+    }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<Return> getOne(@PathVariable Long id) {
-    return ResponseEntity.ok(service.findById(id));
-  }
+    @GetMapping("/{id}")
+    public ResponseEntity<Return> getOne(@PathVariable Long id) {
+        return service.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-  @PostMapping
-  public ResponseEntity<Return> create(@RequestBody Return r) {
-    return ResponseEntity.ok(service.save(r));
-  }
+    @PostMapping
+    public ResponseEntity<Return> create(@RequestBody Return returnEntity) {
+        return ResponseEntity.ok(service.save(returnEntity));
+    }
 
- 
-
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable Long id) {
-    service.deleteById(id);
-    return ResponseEntity.noContent().build();
-  }
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
+

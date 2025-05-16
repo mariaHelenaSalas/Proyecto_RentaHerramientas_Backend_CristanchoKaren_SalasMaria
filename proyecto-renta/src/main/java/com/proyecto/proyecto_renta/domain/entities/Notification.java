@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "Notifications")
+@Table(name = "notifications")
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +17,7 @@ public class Notification {
     @JoinColumn(name = "id_user", nullable = false)
     private User user;
 
+    @Column(nullable = false)
     private String message;
 
     @Enumerated(EnumType.STRING)
@@ -25,9 +26,10 @@ public class Notification {
     @Column(nullable = false, updatable = false)
     private LocalDateTime sentDate = LocalDateTime.now();
 
-    private Boolean read = false;
+    private boolean read = false;
 
     public enum Type {
         RESERVATION, PAYMENT, REMINDER
     }
+  
 }

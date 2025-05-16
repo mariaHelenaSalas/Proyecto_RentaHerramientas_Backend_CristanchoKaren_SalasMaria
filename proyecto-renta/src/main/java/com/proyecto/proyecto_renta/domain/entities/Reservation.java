@@ -7,9 +7,9 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-@Table(name = "Reservations")
+@Table(name = "reservations")
 public class Reservation {
-    @Id
+   @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idReservation;
 
@@ -21,31 +21,17 @@ public class Reservation {
     @JoinColumn(name = "id_tool", nullable = false)
     private Tool tool;
 
-    @Column(nullable = false)
+    @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
-    @Column(nullable = false)
+    @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
     @Enumerated(EnumType.STRING)
-    private Status status;
+    @Column(nullable = false, length = 20)
+    private Status status = Status.PENDING;
 
     public enum Status {
-        PENDING, CONFIRMED, COMPLETED, CANCELLED, PENDIENTE
-    }
-
-    public void setHerramienta(Tool herramienta) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setHerramienta'");
-    }
-
-    public void setFechaFin(LocalDate fechaFin) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setFechaFin'");
-    }
-
-    public void setEstado(Status pendiente) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setEstado'");
+        PENDING, CONFIRMED, COMPLETED, CANCELLED
     }
 }

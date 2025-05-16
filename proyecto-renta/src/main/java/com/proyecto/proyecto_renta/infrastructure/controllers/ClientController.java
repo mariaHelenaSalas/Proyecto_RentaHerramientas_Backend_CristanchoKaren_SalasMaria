@@ -20,29 +20,29 @@ import com.proyecto.proyecto_renta.domain.entities.Client;
 public class ClientController {
 
     @Autowired
-  private IClientService service;
+    private IClientService service;
 
-  @GetMapping
-  public ResponseEntity<List<Client>> list() {
-    return ResponseEntity.ok(service.findAll());
-  }
+    @GetMapping
+    public ResponseEntity<List<Client>> list() {
+        return ResponseEntity.ok(service.findAll());
+    }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<Client> getOne(@PathVariable Long id) {
-    return ResponseEntity.ok(service.findById(id));
-  }
+    @GetMapping("/{id}")
+    public ResponseEntity<Client> getOne(@PathVariable Long id) {
+        return service.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-  @PostMapping
-  public ResponseEntity<Client> create(@RequestBody Client c) {
-    return ResponseEntity.ok(service.save(c));
-  }
+    @PostMapping
+    public ResponseEntity<Client> create(@RequestBody Client client) {
+        return ResponseEntity.ok(service.save(client));
+    }
 
-  
-
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable Long id) {
-    service.deleteById(id);
-    return ResponseEntity.noContent().build();
-  }
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
+

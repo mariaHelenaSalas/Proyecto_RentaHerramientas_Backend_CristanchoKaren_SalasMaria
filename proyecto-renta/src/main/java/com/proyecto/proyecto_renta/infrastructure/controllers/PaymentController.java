@@ -1,5 +1,6 @@
 package com.proyecto.proyecto_renta.infrastructure.controllers;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,30 +21,29 @@ import com.proyecto.proyecto_renta.domain.entities.Payment;
 public class PaymentController {
 
     @Autowired
-  private IPaymentService service;
+    private IPaymentService service;
 
-  @GetMapping
-  public ResponseEntity<List<Payment>> list() {
-    return ResponseEntity.ok(service.findAll());
-  }
+    @GetMapping
+    public ResponseEntity<List<Payment>> list() {
+        return ResponseEntity.ok(service.findAll());
+    }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<Payment> getOne(@PathVariable Long id) {
-    return ResponseEntity.ok(service.findById(id));
-  }
+    @GetMapping("/{id}")
+    public ResponseEntity<Payment> getOne(@PathVariable Long id) {
+        return service.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-  @PostMapping
-  public ResponseEntity<Payment> create(@RequestBody Payment p) {
-    return ResponseEntity.ok(service.save(p));
-  }
+    @PostMapping
+    public ResponseEntity<Payment> create(@RequestBody Payment payment) {
+        return ResponseEntity.ok(service.save(payment));
+    }
 
-
-
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable Long id) {
-    service.deleteById(id);
-    return ResponseEntity.noContent().build();
-  }
-    
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
+

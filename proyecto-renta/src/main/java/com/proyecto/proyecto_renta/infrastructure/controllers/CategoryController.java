@@ -20,29 +20,28 @@ import com.proyecto.proyecto_renta.domain.entities.Category;
 public class CategoryController {
 
     @Autowired
-  private ICategoryService service;
+    private ICategoryService service;
 
-  @GetMapping
-  public ResponseEntity<List<Category>> list() {
-    return ResponseEntity.ok(service.findAll());
-  }
+    @GetMapping
+    public ResponseEntity<List<Category>> list() {
+        return ResponseEntity.ok(service.findAll());
+    }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<Category> getOne(@PathVariable Long id) {
-    return ResponseEntity.ok(service.findById(id));
-  }
+    @GetMapping("/{id}")
+    public ResponseEntity<Category> getOne(@PathVariable Long id) {
+        return service.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-  @PostMapping
-  public ResponseEntity<Category> create(@RequestBody Category cat) {
-    return ResponseEntity.ok(service.save(cat));
-  }
+    @PostMapping
+    public ResponseEntity<Category> create(@RequestBody Category category) {
+        return ResponseEntity.ok(service.save(category));
+    }
 
-  
-
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable Long id) {
-    service.deleteById(id);
-    return ResponseEntity.noContent().build();
-  }
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }

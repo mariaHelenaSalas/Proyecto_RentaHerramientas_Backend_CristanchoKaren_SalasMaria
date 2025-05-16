@@ -19,30 +19,30 @@ import com.proyecto.proyecto_renta.domain.entities.Tool;
 @RequestMapping("/api/tools")
 public class ToolController {
 
-  @Autowired
-  private IToolService service;
+    @Autowired
+    private IToolService service;
 
-  @GetMapping
-  public ResponseEntity<List<Tool>> list() {
-    return ResponseEntity.ok(service.findAll());
-  }
+    @GetMapping
+    public ResponseEntity<List<Tool>> list() {
+        return ResponseEntity.ok(service.findAll());
+    }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<Tool> getOne(@PathVariable Long id) {
-    return ResponseEntity.ok(service.findById(id));
-  }
+    @GetMapping("/{id}")
+    public ResponseEntity<Tool> getOne(@PathVariable Long id) {
+        return service.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-  @PostMapping
-  public ResponseEntity<Tool> create(@RequestBody Tool t) {
-    return ResponseEntity.ok(service.save(t));
-  }
+    @PostMapping
+    public ResponseEntity<Tool> create(@RequestBody Tool tool) {
+        return ResponseEntity.ok(service.save(tool));
+    }
 
-
-
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable Long id) {
-    service.deleteById(id);
-    return ResponseEntity.noContent().build();
-  }  
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
+

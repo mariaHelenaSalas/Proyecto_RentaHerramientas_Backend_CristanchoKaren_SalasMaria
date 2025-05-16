@@ -20,29 +20,29 @@ import com.proyecto.proyecto_renta.domain.entities.Provider;
 public class ProviderController {
 
     @Autowired
-  private IProviderService service;
+    private IProviderService service;
 
-  @GetMapping
-  public ResponseEntity<List<Provider>> list() {
-    return ResponseEntity.ok(service.findAll());
-  }
+    @GetMapping
+    public ResponseEntity<List<Provider>> list() {
+        return ResponseEntity.ok(service.findAll());
+    }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<Provider> getOne(@PathVariable Long id) {
-    return ResponseEntity.ok(service.findById(id));
-  }
+    @GetMapping("/{id}")
+    public ResponseEntity<Provider> getOne(@PathVariable Long id) {
+        return service.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 
-  @PostMapping
-  public ResponseEntity<Provider> create(@RequestBody Provider p) {
-    return ResponseEntity.ok(service.save(p));
-  }
+    @PostMapping
+    public ResponseEntity<Provider> create(@RequestBody Provider provider) {
+        return ResponseEntity.ok(service.save(provider));
+    }
 
-
-
-  @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable Long id) {
-    service.deleteById(id);
-    return ResponseEntity.noContent().build();
-  }
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
+
