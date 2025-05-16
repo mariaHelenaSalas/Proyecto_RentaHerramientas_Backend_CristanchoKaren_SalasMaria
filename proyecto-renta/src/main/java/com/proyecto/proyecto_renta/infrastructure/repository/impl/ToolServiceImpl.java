@@ -1,4 +1,4 @@
-package com.proyecto.proyecto_renta.application.services.impl;
+package com.proyecto.proyecto_renta.infrastructure.repository.impl;
 
 import java.util.List;
 import java.util.Optional;
