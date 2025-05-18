@@ -10,4 +10,5 @@ public interface IClientService {
     Optional<Client> findById(Long id);
     Client save(Client client);
     void deleteById(Long id);
+    Optional<Client> findByUserId(Long userId);
 }

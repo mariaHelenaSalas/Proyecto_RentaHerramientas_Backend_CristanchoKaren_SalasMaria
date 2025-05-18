@@ -10,4 +10,6 @@ public interface IInvoiceService {
     Optional<Invoice> findById(Long id);
     Invoice save(Invoice invoice);
     void deleteById(Long id);
+    List<Invoice> findByProviderUserId(Long userId);
+    List<Invoice> findByClientUserId(Long userId);
 }

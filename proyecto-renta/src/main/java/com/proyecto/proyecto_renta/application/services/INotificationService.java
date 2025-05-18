@@ -10,4 +10,7 @@ public interface INotificationService {
     Optional<Notification> findById(Long id);
     Notification save(Notification notification);
     void deleteById(Long id);
+    List<Notification> findByUserId(Long userId);
+    List<Notification> findUnreadByUserId(Long userId);
+    void markAllAsRead(Long userId);
 }

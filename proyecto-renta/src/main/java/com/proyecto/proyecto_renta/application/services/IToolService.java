@@ -10,4 +10,5 @@ public interface IToolService {
     Optional<Tool> findById(Long id);
     Tool save(Tool tool); 
     void deleteById(Long id);
+    List<Tool> findByProviderId(Long providerId);
 }

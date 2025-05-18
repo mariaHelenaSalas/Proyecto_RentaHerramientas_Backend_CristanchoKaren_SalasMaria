@@ -10,4 +10,6 @@ public interface IReturnService {
     Optional<Return> findById(Long id);
     Return save(Return returnEntity);
     void deleteById(Long id);
+    List<Return> findByProviderUserId(Long userId);
+    List<Return> findByClientUserId(Long userId);
 }

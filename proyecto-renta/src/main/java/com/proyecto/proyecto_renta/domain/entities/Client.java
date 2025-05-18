@@ -21,4 +21,3 @@ public class Client {
     @Column(columnDefinition = "TEXT")
     private String address;
 }
-
