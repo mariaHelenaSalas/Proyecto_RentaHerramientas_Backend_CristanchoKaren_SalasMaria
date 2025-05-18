@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.proyecto.proyecto_renta.application.services.INotificationService;
 import com.proyecto.proyecto_renta.domain.entities.Notification;
@@ -36,5 +37,21 @@ public class NotificationServiceImpl implements INotificationService {
     @Override
     public void deleteById(Long id) {
         repository.deleteById(id);
+    }
+    
+    @Override
+    public List<Notification> findByUserId(Long userId) {
+        return repository.findByUserIdUser(userId);
+    }
+    
+    @Override
+    public List<Notification> findUnreadByUserId(Long userId) {
+        return repository.findByUserIdUserAndReadFalse(userId);
+    }
+    
+    @Override
+    @Transactional
+    public void markAllAsRead(Long userId) {
+        repository.markAllAsReadByUserId(userId);
     }
 }
