@@ -37,4 +37,14 @@ public class ReturnServiceImpl implements IReturnService {
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
+    
+    @Override
+    public List<Return> findByProviderUserId(Long userId) {
+        return repository.findByProviderUserId(userId);
+    }
+    
+    @Override
+    public List<Return> findByClientUserId(Long userId) {
+        return repository.findByClientUserId(userId);
+    }
 }

@@ -45,4 +45,3 @@ public class HistoryController {
         return ResponseEntity.noContent().build();
     }
 }
-

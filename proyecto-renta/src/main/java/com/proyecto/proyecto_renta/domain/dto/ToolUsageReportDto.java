@@ -5,7 +5,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 
 @Data
-public class ToolUsageReport {
+public class ToolUsageReportDTO {
     private Long toolId;
     private String toolName;
     private String category;

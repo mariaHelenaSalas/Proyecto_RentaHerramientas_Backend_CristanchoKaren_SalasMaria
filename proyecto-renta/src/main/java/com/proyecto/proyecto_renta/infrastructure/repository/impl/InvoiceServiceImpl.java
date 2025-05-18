@@ -37,4 +37,14 @@ public class InvoiceServiceImpl implements IInvoiceService {
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
+    
+    @Override
+    public List<Invoice> findByProviderUserId(Long userId) {
+        return repository.findByProviderUserId(userId);
+    }
+    
+    @Override
+    public List<Invoice> findByClientUserId(Long userId) {
+        return repository.findByClientUserId(userId);
+    }
 }

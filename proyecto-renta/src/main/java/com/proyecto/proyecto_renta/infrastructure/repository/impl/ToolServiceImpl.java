@@ -37,5 +37,9 @@ public class ToolServiceImpl implements IToolService {
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
+    
+    @Override
+    public List<Tool> findByProviderId(Long providerId) {
+        return repository.findByProviderIdProvider(providerId);
+    }
 }
-

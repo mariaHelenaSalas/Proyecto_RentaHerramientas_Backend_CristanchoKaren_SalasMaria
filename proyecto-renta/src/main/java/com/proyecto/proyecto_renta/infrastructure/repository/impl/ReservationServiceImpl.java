@@ -37,4 +37,14 @@ public class ReservationServiceImpl implements IReservationService {
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
+    
+    @Override
+    public List<Reservation> findByClientId(Long clientId) {
+        return repository.findByClientIdClient(clientId);
+    }
+    
+    @Override
+    public List<Reservation> findByProviderUserId(Long userId) {
+        return repository.findByToolProviderUserIdUser(userId);
+    }
 }
