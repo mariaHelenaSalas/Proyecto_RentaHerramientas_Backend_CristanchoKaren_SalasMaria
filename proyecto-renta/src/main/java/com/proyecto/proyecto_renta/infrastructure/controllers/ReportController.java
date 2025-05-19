@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.proyecto.proyecto_renta.application.usecase.GenerateProfitReportUseCase;
 import com.proyecto.proyecto_renta.domain.dto.ProfitReportDTO;
-import com.proyecto.proyecto_renta.domain.dto.ToolUsageReportDTO;
+import com.proyecto.proyecto_renta.domain.dto.ToolUsageReport;
 import com.proyecto.proyecto_renta.domain.entities.User;
 
 import java.math.BigDecimal;
@@ -69,11 +69,11 @@ public class ReportController {
     // El administrador puede ver el informe de uso de la herramienta
     @GetMapping("/tool-usage")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<ToolUsageReportDTO>> getToolUsageReport(
+    public ResponseEntity<List<ToolUsageReport>> getToolUsageReport(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         
-        List<ToolUsageReportDTO> report = generateProfitReportUseCase.generateToolUsageReport(startDate, endDate);
+        List<ToolUsageReport> report = generateProfitReportUseCase.generateToolUsageReport(startDate, endDate);
         
         return ResponseEntity.ok(report);
     }
@@ -81,14 +81,14 @@ public class ReportController {
     // El proveedor puede ver su propio informe de uso de la herramienta
     @GetMapping("/provider-tool-usage")
     @PreAuthorize("hasRole('PROVIDER')")
-    public ResponseEntity<List<ToolUsageReportDTO>> getProviderToolUsageReport(
+    public ResponseEntity<List<ToolUsageReport>> getProviderToolUsageReport(
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
         
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = (User) auth.getPrincipal();
         
-        List<ToolUsageReportDTO> report = generateProfitReportUseCase.generateProviderToolUsageReport(user.getIdUser(), startDate, endDate);
+        List<ToolUsageReport> report = generateProfitReportUseCase.generateProviderToolUsageReport(user.getIdUser(), startDate, endDate);
         
         return ResponseEntity.ok(report);
     }

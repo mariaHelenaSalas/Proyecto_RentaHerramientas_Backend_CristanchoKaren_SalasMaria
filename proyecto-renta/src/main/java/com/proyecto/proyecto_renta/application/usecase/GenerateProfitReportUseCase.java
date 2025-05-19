@@ -1,6 +1,6 @@
 package com.proyecto.proyecto_renta.application.usecase;
 
-import com.proyecto.proyecto_renta.domain.dto.ToolUsageReportDTO;
+import com.proyecto.proyecto_renta.domain.dto.ToolUsageReport;
 import com.proyecto.proyecto_renta.domain.entities.Payment;
 import com.proyecto.proyecto_renta.infrastructure.repository.PaymentRepository;
 import com.proyecto.proyecto_renta.infrastructure.repository.ReservationRepository;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +55,7 @@ public class GenerateProfitReportUseCase {
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
     
-    public List<ToolUsageReportDTO> generateToolUsageReport(LocalDate startDate, LocalDate endDate) {
+    public List<ToolUsageReport> generateToolUsageReport(LocalDate startDate, LocalDate endDate) {
         List<Payment> payments;
         
         if (startDate != null && endDate != null) {
@@ -65,19 +64,19 @@ public class GenerateProfitReportUseCase {
             payments = paymentRepository.findAll();
         }
         
-        // Group payments by tool
+        // Agrupar pagos por herramienta
         Map<Long, List<Payment>> paymentsByTool = payments.stream()
                 .filter(payment -> payment.getStatus() == Payment.Status.COMPLETED)
                 .collect(Collectors.groupingBy(p -> p.getReservation().getTool().getIdTool()));
         
-        // Create report DTOs
-        List<ToolUsageReportDTO> report = new ArrayList<>();
+        // Crear DTO de informes
+        List<ToolUsageReport> report = new ArrayList<>();
         
         paymentsByTool.forEach((toolId, toolPayments) -> {
             if (!toolPayments.isEmpty()) {
                 Payment firstPayment = toolPayments.get(0);
                 
-                ToolUsageReportDTO dto = new ToolUsageReportDTO();
+                ToolUsageReport dto = new ToolUsageReport();
                 dto.setToolId(toolId);
                 dto.setToolName(firstPayment.getReservation().getTool().getName());
                 dto.setCategory(firstPayment.getReservation().getTool().getCategory().getName());
@@ -94,13 +93,13 @@ public class GenerateProfitReportUseCase {
             }
         });
         
-        // Sort by revenue (highest first)
+        // Ordenar por ingresos (los más altos primero)
         return report.stream()
                 .sorted((a, b) -> b.getTotalRevenue().compareTo(a.getTotalRevenue()))
                 .collect(Collectors.toList());
     }
     
-    public List<ToolUsageReportDTO> generateProviderToolUsageReport(Long providerId, LocalDate startDate, LocalDate endDate) {
+    public List<ToolUsageReport> generateProviderToolUsageReport(Long providerId, LocalDate startDate, LocalDate endDate) {
         List<Payment> payments;
         
         if (startDate != null && endDate != null) {
@@ -110,19 +109,19 @@ public class GenerateProfitReportUseCase {
             payments = paymentRepository.findByProviderUserId(providerId);
         }
         
-        // Group payments by tool
+        // Agrupar pagos por herramienta
         Map<Long, List<Payment>> paymentsByTool = payments.stream()
                 .filter(payment -> payment.getStatus() == Payment.Status.COMPLETED)
                 .collect(Collectors.groupingBy(p -> p.getReservation().getTool().getIdTool()));
         
-        // Create report DTOs
-        List<ToolUsageReportDTO> report = new ArrayList<>();
+        // Crear DTO de informes
+        List<ToolUsageReport> report = new ArrayList<>();
         
         paymentsByTool.forEach((toolId, toolPayments) -> {
             if (!toolPayments.isEmpty()) {
                 Payment firstPayment = toolPayments.get(0);
                 
-                ToolUsageReportDTO dto = new ToolUsageReportDTO();
+                ToolUsageReport dto = new ToolUsageReport();
                 dto.setToolId(toolId);
                 dto.setToolName(firstPayment.getReservation().getTool().getName());
                 dto.setCategory(firstPayment.getReservation().getTool().getCategory().getName());
@@ -139,7 +138,7 @@ public class GenerateProfitReportUseCase {
             }
         });
         
-        // Sort by revenue (highest first)
+        // Ordenar por ingresos (los más altos primero)
         return report.stream()
                 .sorted((a, b) -> b.getTotalRevenue().compareTo(a.getTotalRevenue()))
                 .collect(Collectors.toList());
