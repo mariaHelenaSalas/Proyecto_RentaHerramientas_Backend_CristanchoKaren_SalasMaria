@@ -9,13 +9,12 @@ import com.proyecto.proyecto_renta.domain.dto.UserResponse;
 import com.proyecto.proyecto_renta.domain.entities.Client;
 import com.proyecto.proyecto_renta.domain.entities.Provider;
 import com.proyecto.proyecto_renta.domain.entities.User;
-import com.proyecto.proyecto_renta.domain.exceptions.BadRequestException;
 import com.proyecto.proyecto_renta.domain.exceptions.ConflictException;
 import com.proyecto.proyecto_renta.infrastructure.repository.UserRepository;
 import com.proyecto.proyecto_renta.infrastructure.security.JwtTokenProvider;
 
 import jakarta.validation.Valid;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -23,16 +22,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "*") // Permite todas las solicitudes CORS (ajusta en producción)
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -57,7 +54,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -67,57 +64,33 @@ public class AuthController {
             );
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String jwt = jwtTokenProvider.generateToken(userDetails);
+            String jwt = jwtTokenProvider.generateToken((UserDetails) authentication.getPrincipal());
             
             Map<String, Object> response = new HashMap<>();
             response.put("token", jwt);
-            response.put("email", userDetails.getUsername());
-            
-            // Añadir rol de usuario
-            if (userDetails instanceof User) {
-                User user = (User) userDetails;
-                response.put("role", user.getRole().name());
-                response.put("userId", user.getIdUser());
-                response.put("name", user.getName());
-            } else {
-                // Obtener el rol de las autoridades
-                String role = userDetails.getAuthorities().stream()
-                    .findFirst()
-                    .map(a -> a.getAuthority().replace("ROLE_", ""))
-                    .orElse("UNKNOWN");
-                response.put("role", role);
-            }
+            response.put("email", loginRequest.getEmail());
+            response.put("role", authentication.getAuthorities().iterator().next().getAuthority());
             
             return ResponseEntity.ok(response);
         } catch (BadCredentialsException e) {
-            throw new BadCredentialsException("Invalid email or password");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
         }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
-        // Verificar si el correo existe
+    public ResponseEntity<UserResponse> register(@Valid @RequestBody RegisterRequest registerRequest) {
         if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
-            throw new ConflictException("Email is already registered");
+            throw new ConflictException("El correo ya está registrado");
         }
-        
-        // Validar rol
-        if (registerRequest.getRole() == null) {
-            throw new BadRequestException("Role is required");
-        }
-        
-        // Crear usuario
+
         User user = new User();
         user.setName(registerRequest.getName());
         user.setEmail(registerRequest.getEmail());
-        user.setPasswordHash(registerRequest.getPassword());
+        user.setPasswordHash(registerRequest.getPassword()); // Asegúrate de que se hashea en el servicio
         user.setRole(registerRequest.getRole());
-        
-        // Save user
+
         User registeredUser = registerUserUseCase.registerUser(user);
-        
-        // Crear cliente o proveedor basado en el rol
+
         if (registerRequest.getRole() == User.Role.CLIENT) {
             Client client = new Client();
             client.setUser(registeredUser);
@@ -131,7 +104,7 @@ public class AuthController {
             provider.setAddress(registerRequest.getAddress());
             providerService.save(provider);
         }
-        
-        return ResponseEntity.ok(UserResponse.fromEntity(registeredUser));
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(UserResponse.fromEntity(registeredUser));
     }
 }
