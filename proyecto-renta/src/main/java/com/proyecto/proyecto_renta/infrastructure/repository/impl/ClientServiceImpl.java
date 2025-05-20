@@ -37,5 +37,9 @@ public class ClientServiceImpl implements IClientService {
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
+    
+    @Override
+    public Optional<Client> findByUserId(Long userId) {
+        return repository.findByUserIdUser(userId);
+    }
 }
-

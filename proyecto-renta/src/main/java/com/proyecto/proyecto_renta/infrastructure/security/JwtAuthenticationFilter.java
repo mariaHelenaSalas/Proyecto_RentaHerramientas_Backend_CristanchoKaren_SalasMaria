@@ -2,6 +2,7 @@ package com.proyecto.proyecto_renta.infrastructure.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.proyecto.proyecto_renta.domain.dto.LoginRequest;
+import com.proyecto.proyecto_renta.domain.entities.User;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -45,6 +46,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         }
     }
 
+
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         UserDetails userDetails = (UserDetails) authResult.getPrincipal();
@@ -53,6 +55,19 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Map<String, Object> responseBody = new HashMap<>();
         responseBody.put("token", token);
         responseBody.put("email", userDetails.getUsername());
+        
+        if (userDetails instanceof User) {
+            User user = (User) userDetails;
+            responseBody.put("role", user.getRole().name());
+            responseBody.put("userId", user.getIdUser());
+            responseBody.put("name", user.getName());
+        } else {
+            String role = userDetails.getAuthorities().stream()
+                .findFirst()
+                .map(a -> a.getAuthority().replace("ROLE_", ""))
+                .orElse("UNKNOWN");
+            responseBody.put("role", role);
+        }
         
         response.setContentType("application/json");
         response.getWriter().write(new ObjectMapper().writeValueAsString(responseBody));

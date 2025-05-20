@@ -37,4 +37,14 @@ public class PaymentServiceImpl implements IPaymentService {
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
+    
+    @Override
+    public List<Payment> findByClientUserId(Long userId) {
+        return repository.findByClientUserId(userId);
+    }
+    
+    @Override
+    public List<Payment> findByProviderUserId(Long userId) {
+        return repository.findByProviderUserId(userId);
+    }
 }

@@ -37,4 +37,9 @@ public class ProviderServiceImpl implements IProviderService {
     public void deleteById(Long id) {
         repository.deleteById(id);
     }
+    
+    @Override
+    public Optional<Provider> findByUserId(Long userId) {
+        return repository.findByUserIdUser(userId);
+    }
 }
