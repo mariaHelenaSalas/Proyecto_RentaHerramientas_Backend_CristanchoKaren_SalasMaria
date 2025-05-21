@@ -1,47 +1,52 @@
 package com.proyecto.proyecto_renta.infrastructure.controllers;
 
 import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
-import com.proyecto.proyecto_renta.application.services.ICategoryService;
+import com.proyecto.proyecto_renta.application.services.CategoryService;
 import com.proyecto.proyecto_renta.domain.entities.Category;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/categories")
+@RequiredArgsConstructor
 public class CategoryController {
 
-    @Autowired
-    private ICategoryService service;
+    private final CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<Category>> list() {
-        return ResponseEntity.ok(service.findAll());
+    public ResponseEntity<List<Category>> getAllCategories() {
+        return ResponseEntity.ok(categoryService.findAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getOne(@PathVariable Long id) {
-        return service.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
+        return ResponseEntity.ok(categoryService.findById(id).orElseThrow());
     }
 
     @PostMapping
-    public ResponseEntity<Category> create(@RequestBody Category category) {
-        return ResponseEntity.ok(service.save(category));
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+        return ResponseEntity.status(201).body(categoryService.save(category));
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Category> updateCategory(@PathVariable Long id, @RequestBody Category category) {
+        if (!categoryService.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        category.setId(id);
+        return ResponseEntity.ok(categoryService.save(category));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        service.deleteById(id);
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<Void> deleteCategory(@PathVariable Long id) {
+        categoryService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }
