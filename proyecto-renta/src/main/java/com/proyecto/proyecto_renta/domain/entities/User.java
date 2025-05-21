@@ -1,133 +1,110 @@
 package com.proyecto.proyecto_renta.domain.entities;
 
+import java.util.List;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
-import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
-
-@Data
-@NoArgsConstructor
 @Entity
 @Table(name = "users")
-public class User implements UserDetails {
-    
+@Inheritance(strategy = InheritanceType.JOINED) 
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idUser;
+    private Long id;
 
-    @Column(length = 100, nullable = false)
     private String name;
-
-    @Column(nullable = false, unique = true, length = 90)
     private String email;
+    private String password;
+    private String phone;
+    private String address;
+    private boolean active = true;
 
-    @Column(name = "password_hash", nullable = false, length = 220)
-    private String passwordHash;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false, length = 30)
+    @ManyToOne
+    @JoinColumn(name = "role_id")
     private Role role;
 
-    @Column(name = "registration_date", nullable = false, updatable = false)
-    private LocalDateTime registrationDate = LocalDateTime.now();
+    @OneToMany(mappedBy = "user")
+    private List<Notification> notifications;
 
-    @Column(name = "account_non_expired", nullable = false)
-    private boolean accountNonExpired = true;
-
-    @Column(name = "account_non_locked", nullable = false)
-    private boolean accountNonLocked = true;
-
-    @Column(name = "credentials_non_expired", nullable = false)
-    private boolean credentialsNonExpired = true;
-
-    @Column(name = "enabled", nullable = false)
-    private boolean enabled = true;
-
-    public enum Role {
-        ADMIN, PROVIDER, CLIENT
+    public Long getId() {
+        return id;
     }
 
-    // Métodos requeridos por UserDetails
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role.name()));
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    @Override
-    public String getPassword() {
-        return passwordHash;
+    public String getName() {
+        return name;
     }
 
-    @Override
-    public String getUsername() {
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
         return email;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return accountNonExpired;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return accountNonLocked;
+    public String getPassword() {
+        return password;
     }
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return credentialsNonExpired;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    @Override
-    public boolean isEnabled() {
-        return enabled;
+    public String getPhone() {
+        return phone;
     }
 
-    // Builder opcional para creación más limpia
-    public static UserBuilder builder() {
-        return new UserBuilder();
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public static class UserBuilder {
-        private String name;
-        private String email;
-        private String passwordHash;
-        private Role role;
-
-        public UserBuilder name(String name) {
-            this.name = name;
-            return this;
-        }
-
-        public UserBuilder email(String email) {
-            this.email = email;
-            return this;
-        }
-
-        public UserBuilder passwordHash(String passwordHash) {
-            this.passwordHash = passwordHash;
-            return this;
-        }
-
-        public UserBuilder role(Role role) {
-            this.role = role;
-            return this;
-        }
-
-        public User build() {
-            User user = new User();
-            user.setName(name);
-            user.setEmail(email);
-            user.setPasswordHash(passwordHash);
-            user.setRole(role);
-            return user;
-        }
+    public String getAddress() {
+        return address;
     }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+    
+
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+    
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
+    }
+    
 }
