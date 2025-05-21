@@ -1,39 +1,33 @@
-// package com.proyecto.proyecto_renta.infrastructure.controllers;
+package com.proyecto.proyecto_renta.infrastructure.controllers;
 
 
-// import com.rental.toolrental.dto.auth.JwtResponse;
-// import com.rental.toolrental.dto.auth.LoginRequest;
-// import com.rental.toolrental.dto.auth.SignupRequest;
-// import com.rental.toolrental.service.AuthService;
-// import io.swagger.v3.oas.annotations.Operation;
-// import io.swagger.v3.oas.annotations.tags.Tag;
-// import jakarta.validation.Valid;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.web.bind.annotation.PostMapping;
-// import org.springframework.web.bind.annotation.RequestBody;
-// import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import com.proyecto.proyecto_renta.application.services.AuthService;
+import com.proyecto.proyecto_renta.domain.dtos.LoginRequest;
+import com.proyecto.proyecto_renta.domain.dtos.LoginResponse;
+import com.proyecto.proyecto_renta.domain.dtos.RegisterRequest;
 
-// @RestController
-// @RequestMapping("/api/auth")
-// @Tag(name = "Authentication", description = "Authentication API")
-// public class AuthController {
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
-//     @Autowired
-//     private AuthService authService;
+@RestController
+@RequestMapping("/auth")
+@RequiredArgsConstructor
+public class AuthController {
 
-//     @PostMapping("/login")
-//     @Operation(summary = "Authenticate user and generate JWT token")
-//     public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-//         JwtResponse jwtResponse = authService.authenticateUser(loginRequest);
-//         return ResponseEntity.ok(jwtResponse);
-//     }
-
-//     @PostMapping("/signup")
-//     @Operation(summary = "Register a new user")
-//     public ResponseEntity<JwtResponse> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
-//         JwtResponse jwtResponse = authService.registerUser(signupRequest);
-//         return ResponseEntity.ok(jwtResponse);
-//     }
-// }
+    private final AuthService authService;
+    
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        LoginResponse response = authService.login(request.email(), request.password());
+        return ResponseEntity.ok(response);
+    }
+    @PostMapping("/register")
+    public ResponseEntity<LoginResponse> register(@Valid @RequestBody RegisterRequest request) {
+        return ResponseEntity.ok(authService.register(request));
+    }
+}

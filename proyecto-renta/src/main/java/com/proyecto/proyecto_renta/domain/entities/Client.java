@@ -1,23 +1,43 @@
 package com.proyecto.proyecto_renta.domain.entities;
 
-import jakarta.persistence.*;
-import lombok.Data;
+import java.util.List;
 
-@Data
+import jakarta.persistence.Entity;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
+
 @Entity
 @Table(name = "clients")
-public class Client {
-   @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idClient;
+@PrimaryKeyJoinColumn(name = "user_id")
+public class Client extends User {
+    private String taxId;
+    private String businessName;
 
-    @OneToOne
-    @JoinColumn(name = "id_user", nullable = false, unique = true)
-    private User user;
+    @OneToMany(mappedBy = "client")
+    private List<Reservation> reservations;
 
-    @Column(length = 15)
-    private String phone;
+    public String getTaxId() {
+        return taxId;
+    }
 
-    @Column(columnDefinition = "TEXT")
-    private String address;
+    public void setTaxId(String taxId) {
+        this.taxId = taxId;
+    }
+
+    public String getBusinessName() {
+        return businessName;
+    }
+
+    public void setBusinessName(String businessName) {
+        this.businessName = businessName;
+    }
+
+    public List<Reservation> getReservations() {
+        return reservations;
+    }
+
+    public void setReservations(List<Reservation> reservations) {
+        this.reservations = reservations;
+    }
 }
