@@ -1,110 +1,39 @@
-package com.proyecto.proyecto_renta.infrastructure.controllers;
+// package com.proyecto.proyecto_renta.infrastructure.controllers;
 
-import com.proyecto.proyecto_renta.application.services.IClientService;
-import com.proyecto.proyecto_renta.application.services.IProviderService;
-import com.proyecto.proyecto_renta.application.usecase.RegisterUserUseCase;
-import com.proyecto.proyecto_renta.domain.dto.LoginRequest;
-import com.proyecto.proyecto_renta.domain.dto.RegisterRequest;
-import com.proyecto.proyecto_renta.domain.dto.UserResponse;
-import com.proyecto.proyecto_renta.domain.entities.Client;
-import com.proyecto.proyecto_renta.domain.entities.Provider;
-import com.proyecto.proyecto_renta.domain.entities.User;
-import com.proyecto.proyecto_renta.domain.exceptions.ConflictException;
-import com.proyecto.proyecto_renta.infrastructure.repository.UserRepository;
-import com.proyecto.proyecto_renta.infrastructure.security.JwtTokenProvider;
 
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.*;
+// import com.rental.toolrental.dto.auth.JwtResponse;
+// import com.rental.toolrental.dto.auth.LoginRequest;
+// import com.rental.toolrental.dto.auth.SignupRequest;
+// import com.rental.toolrental.service.AuthService;
+// import io.swagger.v3.oas.annotations.Operation;
+// import io.swagger.v3.oas.annotations.tags.Tag;
+// import jakarta.validation.Valid;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.http.ResponseEntity;
+// import org.springframework.web.bind.annotation.PostMapping;
+// import org.springframework.web.bind.annotation.RequestBody;
+// import org.springframework.web.bind.annotation.RequestMapping;
+// import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
+// @RestController
+// @RequestMapping("/api/auth")
+// @Tag(name = "Authentication", description = "Authentication API")
+// public class AuthController {
 
-@RestController
-@RequestMapping("/api/auth")
-@CrossOrigin(origins = "*") // Permite todas las solicitudes CORS (ajusta en producción)
-public class AuthController {
+//     @Autowired
+//     private AuthService authService;
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtTokenProvider jwtTokenProvider;
-    private final RegisterUserUseCase registerUserUseCase;
-    private final UserRepository userRepository;
-    private final IClientService clientService;
-    private final IProviderService providerService;
+//     @PostMapping("/login")
+//     @Operation(summary = "Authenticate user and generate JWT token")
+//     public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+//         JwtResponse jwtResponse = authService.authenticateUser(loginRequest);
+//         return ResponseEntity.ok(jwtResponse);
+//     }
 
-    public AuthController(AuthenticationManager authenticationManager,
-                         JwtTokenProvider jwtTokenProvider,
-                         RegisterUserUseCase registerUserUseCase,
-                         UserRepository userRepository,
-                         IClientService clientService,
-                         IProviderService providerService) {
-        this.authenticationManager = authenticationManager;
-        this.jwtTokenProvider = jwtTokenProvider;
-        this.registerUserUseCase = registerUserUseCase;
-        this.userRepository = userRepository;
-        this.clientService = clientService;
-        this.providerService = providerService;
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                    loginRequest.getEmail(),
-                    loginRequest.getPassword()
-                )
-            );
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            String jwt = jwtTokenProvider.generateToken((UserDetails) authentication.getPrincipal());
-            
-            Map<String, Object> response = new HashMap<>();
-            response.put("token", jwt);
-            response.put("email", loginRequest.getEmail());
-            response.put("role", authentication.getAuthorities().iterator().next().getAuthority());
-            
-            return ResponseEntity.ok(response);
-        } catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales inválidas");
-        }
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<UserResponse> register(@Valid @RequestBody RegisterRequest registerRequest) {
-        if (userRepository.findByEmail(registerRequest.getEmail()).isPresent()) {
-            throw new ConflictException("El correo ya está registrado");
-        }
-
-        User user = new User();
-        user.setName(registerRequest.getName());
-        user.setEmail(registerRequest.getEmail());
-        user.setPasswordHash(registerRequest.getPassword()); // Asegúrate de que se hashea en el servicio
-        user.setRole(registerRequest.getRole());
-
-        User registeredUser = registerUserUseCase.registerUser(user);
-
-        if (registerRequest.getRole() == User.Role.CLIENT) {
-            Client client = new Client();
-            client.setUser(registeredUser);
-            client.setPhone(registerRequest.getPhone());
-            client.setAddress(registerRequest.getAddress());
-            clientService.save(client);
-        } else if (registerRequest.getRole() == User.Role.PROVIDER) {
-            Provider provider = new Provider();
-            provider.setUser(registeredUser);
-            provider.setPhone(registerRequest.getPhone());
-            provider.setAddress(registerRequest.getAddress());
-            providerService.save(provider);
-        }
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(UserResponse.fromEntity(registeredUser));
-    }
-}
+//     @PostMapping("/signup")
+//     @Operation(summary = "Register a new user")
+//     public ResponseEntity<JwtResponse> registerUser(@Valid @RequestBody SignupRequest signupRequest) {
+//         JwtResponse jwtResponse = authService.registerUser(signupRequest);
+//         return ResponseEntity.ok(jwtResponse);
+//     }
+// }
