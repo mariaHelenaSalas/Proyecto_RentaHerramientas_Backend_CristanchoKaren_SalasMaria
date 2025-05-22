@@ -2,6 +2,8 @@ package com.proyecto.proyecto_renta.domain.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
@@ -16,6 +18,7 @@ public class Supplier extends User {
     private String companyName;
 
     @OneToMany(mappedBy = "supplier")
+    @JsonIgnore
     private List<Tool> tools;
 
     @OneToMany(mappedBy = "supplier")

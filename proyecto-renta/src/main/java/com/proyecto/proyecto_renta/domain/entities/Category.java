@@ -2,6 +2,9 @@ package com.proyecto.proyecto_renta.domain.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +23,7 @@ public class Category {
     private String description;
 
     @OneToMany(mappedBy = "categories")
+    @JsonIgnore
     private List<Tool> tools;
 
     public Long getId() {

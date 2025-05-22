@@ -2,6 +2,9 @@ package com.proyecto.proyecto_renta.domain.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -28,6 +31,7 @@ public class Tool {
 
     @ManyToOne
     @JoinColumn(name = "category_id")
+    @JsonBackReference
     private Category categories;
 
     @ManyToOne
@@ -35,9 +39,11 @@ public class Tool {
     private Supplier supplier;
 
     @OneToMany(mappedBy = "tool")
+    @JsonIgnore
     private List<Reservation> reservations;
 
     @OneToMany(mappedBy = "tool")
+    @JsonIgnore
     private List<Damage> damages;
 
     public Long getId() {
