@@ -2,13 +2,13 @@ package com.proyecto.proyecto_renta.domain.entities;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")
-@Inheritance(strategy = InheritanceType.JOINED) 
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +26,7 @@ public class User {
     private Role role;
 
     @OneToMany(mappedBy = "user")
-    @JsonIgnore
+    @JsonManagedReference
     private List<Notification> notifications;
 
     public Long getId() {
@@ -92,14 +92,12 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
-    
 
     public List<Notification> getNotifications() {
         return notifications;
     }
-    
+
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
     }
-    
 }

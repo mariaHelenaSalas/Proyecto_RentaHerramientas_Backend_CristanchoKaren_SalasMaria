@@ -25,8 +25,8 @@ public class Notification {
     private LocalDateTime creationDate;
 
     @ManyToOne
-    @JsonBackReference
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User user;
 
     public Long getId() {

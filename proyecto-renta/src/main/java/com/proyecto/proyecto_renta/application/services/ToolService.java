@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import com.proyecto.proyecto_renta.domain.entities.Tool;
 
-
 public interface ToolService {
     List<Tool> findAll();
     Optional<Tool> findById(Long id);

@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.proyecto.proyecto_renta.domain.entities.Invoice;
 
-
 public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     Optional<Invoice> findByReservationId(Long reservationId);
 }
+

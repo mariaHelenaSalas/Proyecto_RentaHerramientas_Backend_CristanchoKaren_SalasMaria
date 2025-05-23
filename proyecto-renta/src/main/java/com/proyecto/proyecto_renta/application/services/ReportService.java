@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import com.proyecto.proyecto_renta.domain.dtos.Report;
 
-
 public interface ReportService {
     List<Report> findAll();
     Optional<Report> findById(Long id);

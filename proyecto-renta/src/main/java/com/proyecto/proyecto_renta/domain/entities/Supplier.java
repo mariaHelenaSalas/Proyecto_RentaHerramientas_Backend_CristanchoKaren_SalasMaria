@@ -2,7 +2,7 @@ package com.proyecto.proyecto_renta.domain.entities;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -18,10 +18,11 @@ public class Supplier extends User {
     private String companyName;
 
     @OneToMany(mappedBy = "supplier")
-    @JsonIgnore
+    @JsonManagedReference
     private List<Tool> tools;
 
     @OneToMany(mappedBy = "supplier")
+    @JsonManagedReference
     private List<Reservation> reservations;
 
     public String getTaxId() {

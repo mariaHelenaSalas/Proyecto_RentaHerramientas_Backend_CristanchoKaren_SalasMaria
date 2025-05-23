@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.proyecto.proyecto_renta.application.services.NotificationService;
 import com.proyecto.proyecto_renta.domain.entities.Notification;
 
-
 @Service
 public class NotificationServiceImpl implements NotificationService {
 

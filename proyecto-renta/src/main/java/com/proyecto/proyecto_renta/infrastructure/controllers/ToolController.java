@@ -1,15 +1,12 @@
 package com.proyecto.proyecto_renta.infrastructure.controllers;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.proyecto.proyecto_renta.application.services.ToolService;
-import com.proyecto.proyecto_renta.domain.dtos.ToolDto;
 import com.proyecto.proyecto_renta.domain.entities.Tool;
 
 import lombok.RequiredArgsConstructor;
@@ -19,8 +16,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ToolController {
 
-    @Autowired
-    private ToolService toolService;
+    private final ToolService toolService;
 
     @GetMapping
     public ResponseEntity<List<Tool>> listAvailableTools() {
@@ -28,11 +24,8 @@ public class ToolController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ToolDto> getTool(@PathVariable Long id) {
-        return toolService.findById(id)
-                .map(tool -> new ToolDto(tool))
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<Tool> getTool(@PathVariable Long id) {
+        return ResponseEntity.ok(toolService.findById(id).orElseThrow());
     }
 
     @PostMapping

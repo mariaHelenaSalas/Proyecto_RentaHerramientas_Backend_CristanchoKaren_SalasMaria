@@ -2,7 +2,6 @@ package com.proyecto.proyecto_renta.domain.dtos;
 
 import java.time.LocalDate;
 
-
 public class Report {
     private String type;
     private LocalDate startDate;

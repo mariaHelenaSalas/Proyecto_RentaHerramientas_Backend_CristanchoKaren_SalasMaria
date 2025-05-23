@@ -1,6 +1,5 @@
 package com.proyecto.proyecto_renta.domain.dtos;
 
-
 public class Payment {
     private Long id;
     private double amount;

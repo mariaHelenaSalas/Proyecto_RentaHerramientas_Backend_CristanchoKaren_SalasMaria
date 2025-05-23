@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import com.proyecto.proyecto_renta.domain.entities.Payment;
 
-
 public interface PaymentService {
     List<Payment> findAll();
     Optional<Payment> findById(Long id);

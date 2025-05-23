@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import com.proyecto.proyecto_renta.application.services.InvoiceService;
 import com.proyecto.proyecto_renta.domain.entities.Invoice;
 
-
-
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
 
@@ -43,5 +41,4 @@ public class InvoiceServiceImpl implements InvoiceService {
     public boolean existsById(Long id) {
         return invoiceRepository.existsById(id);
     }
-
 }

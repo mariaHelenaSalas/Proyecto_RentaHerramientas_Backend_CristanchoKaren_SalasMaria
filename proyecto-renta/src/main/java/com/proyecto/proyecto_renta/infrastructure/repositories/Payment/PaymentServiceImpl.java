@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.proyecto.proyecto_renta.application.services.PaymentService;
 import com.proyecto.proyecto_renta.domain.entities.Payment;
 
-
 @Service
 public class PaymentServiceImpl implements PaymentService {
 

@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import com.proyecto.proyecto_renta.application.services.CategoryService;
 import com.proyecto.proyecto_renta.domain.entities.Category;
 
-
-
 @Service
 public class CategoryServiceImpl implements CategoryService {
 

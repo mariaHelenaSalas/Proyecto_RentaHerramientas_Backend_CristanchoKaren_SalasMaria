@@ -2,7 +2,6 @@ package com.proyecto.proyecto_renta.infrastructure.controllers;
 
 import java.util.List;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.proyecto.proyecto_renta.application.services.InvoiceService;
@@ -18,7 +17,6 @@ public class InvoiceController {
     private final InvoiceService invoiceService;
 
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Invoice>> listAllInvoices() {
         return ResponseEntity.ok(invoiceService.findAll());
     }
@@ -29,7 +27,6 @@ public class InvoiceController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Invoice> createInvoice(@RequestBody Invoice invoice) {
         return ResponseEntity.status(201).body(invoiceService.save(invoice));
     }
@@ -40,7 +37,6 @@ public class InvoiceController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> deleteInvoice(@PathVariable Long id) {
         invoiceService.deleteById(id);
         return ResponseEntity.noContent().build();

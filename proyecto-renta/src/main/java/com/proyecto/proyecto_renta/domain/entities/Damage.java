@@ -2,6 +2,8 @@ package com.proyecto.proyecto_renta.domain.entities;
 
 import java.time.LocalDate;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,10 +26,12 @@ public class Damage {
 
     @ManyToOne
     @JoinColumn(name = "tool_id")
+    @JsonBackReference
     private Tool tool;
 
     @ManyToOne
     @JoinColumn(name = "reservation_id")
+    @JsonBackReference
     private Reservation reservation;
 
     public Long getId() {

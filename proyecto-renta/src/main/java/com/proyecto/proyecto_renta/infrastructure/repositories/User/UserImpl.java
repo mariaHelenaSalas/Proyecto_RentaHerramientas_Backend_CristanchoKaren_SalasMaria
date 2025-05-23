@@ -10,11 +10,11 @@ import com.proyecto.proyecto_renta.domain.entities.User;
 import jakarta.transaction.Transactional;
 
 @Service
-public class UserImp implements UserService {
+public class UserImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    public UserImp(UserRepository userRepository) {
+    public UserImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 

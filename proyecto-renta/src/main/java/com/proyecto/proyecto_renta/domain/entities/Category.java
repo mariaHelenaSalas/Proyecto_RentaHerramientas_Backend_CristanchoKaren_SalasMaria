@@ -2,7 +2,6 @@ package com.proyecto.proyecto_renta.domain.entities;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
@@ -22,8 +21,8 @@ public class Category {
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "categories")
-    @JsonIgnore
+    @OneToMany(mappedBy = "category")
+    @JsonManagedReference
     private List<Tool> tools;
 
     public Long getId() {

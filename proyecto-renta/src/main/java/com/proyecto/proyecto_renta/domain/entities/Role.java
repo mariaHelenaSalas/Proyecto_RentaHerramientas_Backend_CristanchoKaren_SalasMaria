@@ -10,7 +10,7 @@ public class Role {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name; // ADMIN, SUPPLIER, CLIENT
+    private String name; // ADMIN, PROVIDER, CLIENT
 
     public Long getId() {
         return id;

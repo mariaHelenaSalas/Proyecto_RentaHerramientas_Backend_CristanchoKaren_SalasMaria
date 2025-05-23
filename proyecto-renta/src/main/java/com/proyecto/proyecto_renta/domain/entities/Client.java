@@ -2,6 +2,8 @@ package com.proyecto.proyecto_renta.domain.entities;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
@@ -15,6 +17,7 @@ public class Client extends User {
     private String businessName;
 
     @OneToMany(mappedBy = "client")
+    @JsonManagedReference
     private List<Reservation> reservations;
 
     public String getTaxId() {

@@ -3,11 +3,11 @@ package com.proyecto.proyecto_renta.domain.dtos;
 import java.time.LocalDate;
 
 public class Invoice {
-     private Long id;
-    private String folio;
+    private Long id;
+    private String invoiceNumber;
     private LocalDate issueDate;
     private String issuerTaxId;
-    private String receiverTaxId;
+    private String recipientTaxId;
     private double subtotal;
     private double tax;
     private double total;
@@ -21,12 +21,12 @@ public class Invoice {
         this.id = id;
     }
 
-    public String getFolio() {
-        return folio;
+    public String getInvoiceNumber() {
+        return invoiceNumber;
     }
 
-    public void setFolio(String folio) {
-        this.folio = folio;
+    public void setInvoiceNumber(String invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
     }
 
     public LocalDate getIssueDate() {
@@ -45,12 +45,12 @@ public class Invoice {
         this.issuerTaxId = issuerTaxId;
     }
 
-    public String getReceiverTaxId() {
-        return receiverTaxId;
+    public String getRecipientTaxId() {
+        return recipientTaxId;
     }
 
-    public void setReceiverTaxId(String receiverTaxId) {
-        this.receiverTaxId = receiverTaxId;
+    public void setRecipientTaxId(String recipientTaxId) {
+        this.recipientTaxId = recipientTaxId;
     }
 
     public double getSubtotal() {

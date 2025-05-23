@@ -1,5 +1,7 @@
 package com.proyecto.proyecto_renta;
 
+import java.util.Optional;
+
 import javax.sql.DataSource;
 
 import org.springframework.boot.CommandLineRunner;
@@ -10,8 +12,11 @@ import org.springframework.core.annotation.Order;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
 import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.proyecto.proyecto_renta.application.services.UserService;
 import com.proyecto.proyecto_renta.domain.entities.Role;
+import com.proyecto.proyecto_renta.domain.entities.User;
 import com.proyecto.proyecto_renta.infrastructure.repositories.Role.RoleRepository;
 
 @SpringBootApplication
@@ -21,25 +26,33 @@ public class ProyectoRentaApplication {
         SpringApplication.run(ProyectoRentaApplication.class, args);
     }
 
-    // @Bean
-    // @Order(1)
-    // CommandLineRunner init(RoleRepository rolRepository) {
-    //     return args -> {
-    //         if (rolRepository.count() == 0) {
-    //             Role admin = new Role();
-    //             admin.setName("ADMIN");
-    //             rolRepository.save(admin);
+    @Bean
+    CommandLineRunner initAdminUser(UserService userService, RoleRepository roleRepository,
+            PasswordEncoder passwordEncoder) {
+        return args -> {
+            if (userService.findOneByUsername("admin").isEmpty()) {
+                Optional<Role> adminRoleOpt = roleRepository.findByName("ADMIN");
+                if (adminRoleOpt.isPresent()) {
+                    Role adminRole = adminRoleOpt.get();
 
-    //             Role proveedor = new Role();
-    //             proveedor.setName("PROVIDER");
-    //             rolRepository.save(proveedor);
+                    User adminUser = new User();
+                    adminUser.setName("admin");
+                    adminUser.setEmail("karen@gmail.com");
+                    adminUser.setPassword(passwordEncoder.encode("1234567890"));
+                    adminUser.setAddress("Administrative Address");
+                    adminUser.setPhone("3232483683");
+                    adminUser.setActive(true);
+                    adminUser.setRole(adminRole);
 
-    //             Role cliente = new Role();
-    //             cliente.setName("CLIENT");
-    //             rolRepository.save(cliente);
-    //         }
-    //     };
-    // }
+                    userService.save(adminUser);
+
+                    System.out.println("Default user created successfully.");
+                }
+            } else {
+                System.out.println("User already exists.");
+            }
+        };
+    }
 
     @Bean
     @Order(1)

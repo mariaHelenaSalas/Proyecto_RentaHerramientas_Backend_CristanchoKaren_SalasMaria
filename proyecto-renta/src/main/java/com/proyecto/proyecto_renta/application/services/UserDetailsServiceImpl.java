@@ -8,9 +8,6 @@ import org.springframework.stereotype.Service;
 import com.proyecto.proyecto_renta.domain.entities.User;
 import com.proyecto.proyecto_renta.infrastructure.repositories.User.UserRepository;
 
-
-
-
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 

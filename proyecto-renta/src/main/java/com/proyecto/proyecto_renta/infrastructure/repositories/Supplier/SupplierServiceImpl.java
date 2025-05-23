@@ -43,3 +43,4 @@ public class SupplierServiceImpl implements SupplierService {
         return supplierRepository.existsById(id);
     }
 }
+

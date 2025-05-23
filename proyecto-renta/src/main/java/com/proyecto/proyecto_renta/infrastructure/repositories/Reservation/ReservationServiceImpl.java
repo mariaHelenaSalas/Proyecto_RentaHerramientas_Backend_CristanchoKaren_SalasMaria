@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.proyecto.proyecto_renta.application.services.ReservationService;
 import com.proyecto.proyecto_renta.domain.entities.Reservation;
 
-
 @Service
 public class ReservationServiceImpl implements ReservationService {
 
@@ -38,9 +37,7 @@ public class ReservationServiceImpl implements ReservationService {
         reservationRepository.deleteById(id);
     }
 
-    public List<Reservation> listByClient(Long clientId) {
+    public List<Reservation> findByClient(Long clientId) {
         return reservationRepository.findByClientId(clientId);
     }
-
-    
 }

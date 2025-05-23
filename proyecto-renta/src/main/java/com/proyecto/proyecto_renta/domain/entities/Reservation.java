@@ -3,6 +3,9 @@ package com.proyecto.proyecto_renta.domain.entities;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,20 +30,25 @@ public class Reservation {
 
     @ManyToOne
     @JoinColumn(name = "client_id")
+    @JsonBackReference
     private Client client;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")
+    @JsonBackReference
     private Supplier supplier;
 
     @ManyToOne
     @JoinColumn(name = "tool_id")
+    @JsonBackReference
     private Tool tool;
 
     @OneToOne(mappedBy = "reservation")
+    @JsonManagedReference
     private Payment payment;
 
     @OneToOne(mappedBy = "reservation")
+    @JsonManagedReference
     private Invoice invoice;
 
     public Long getId() {

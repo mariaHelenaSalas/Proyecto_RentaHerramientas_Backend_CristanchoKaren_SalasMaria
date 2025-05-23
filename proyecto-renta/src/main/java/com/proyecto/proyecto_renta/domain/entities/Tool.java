@@ -32,18 +32,17 @@ public class Tool {
     @ManyToOne
     @JoinColumn(name = "category_id")
     @JsonBackReference
-    private Category categories;
+    private Category category;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")
+    @JsonBackReference
     private Supplier supplier;
 
     @OneToMany(mappedBy = "tool")
-    @JsonIgnore
     private List<Reservation> reservations;
 
     @OneToMany(mappedBy = "tool")
-    @JsonIgnore
     private List<Damage> damages;
 
     public Long getId() {
@@ -110,12 +109,12 @@ public class Tool {
         this.active = active;
     }
 
-    public Category getCategories() {
-        return categories;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setCategories(Category categories) {
-        this.categories = categories;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
     public Supplier getSupplier() {

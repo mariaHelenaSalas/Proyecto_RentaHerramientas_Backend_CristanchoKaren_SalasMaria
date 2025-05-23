@@ -87,5 +87,4 @@ public class AuthService {
 
         return new LoginResponse(jwtToken, assignedRole.getName());
     }
-
 }
