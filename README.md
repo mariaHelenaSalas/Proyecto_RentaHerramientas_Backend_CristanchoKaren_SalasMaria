@@ -46,7 +46,8 @@ application.cors.allowed-origins=http://localhost:4200
 logging.level.org.springframework=INFO
 ```
 ## 🗂️ Diagrama relacional de la base de datos
-### 📎 Agrega aquí una imagen del diagrama ER (por ejemplo en /docs/db-diagram.png) o un enlace:
+![Untitled](https://github.com/user-attachments/assets/2060bc7b-304c-4e02-bedd-b95fbfa1a0f1)
+
 
 ## 📌 Endpoints principales
 | Método | Endpoint                      | Descripción                    |
