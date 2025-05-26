@@ -22,6 +22,12 @@ Sistema web para la **gestión de alquiler de herramientas** desarrollado como p
 git clone https://github.com/mariaHelenaSalas/Proyecto_RentaHerramientas_Backend_CristanchoKaren_SalasMaria.git
 cd Proyecto_RentaHerramientas_Backend_CristanchoKaren_SalasMaria
 ```
+```bash
+# Clona el repositorio
+git clone https://github.com/KarenLore/Proyecto_RentaHerramientas_Fronted_CristanchoKaren_SalasMaria.git
+cd Proyecto_RentaHerramientas_Frontend_CristanchoKaren_SalasMaria
+```
+
 # Asegúrate de tener Java 21 y PostgreSQL ejecutándose
 # Ejecuta el proyecto (Spring Boot - Maven)
 ./mvnw spring-boot:run
