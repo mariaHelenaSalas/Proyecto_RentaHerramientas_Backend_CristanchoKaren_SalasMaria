@@ -104,6 +104,10 @@ http://localhost:8080/swagger-ui/index.html
  ┣ 📄 application.properties
  ┗ 📄 pom.xml
 ```
+## 👩‍💻 Admin Predeterminado (Se crea al momento de ejercutar el proyecto)
+✅ Email: karen@gmail.com
+✅ Password: 1234567890
+
 ## 👩‍💻 Autores
 
  💻 Karen Cristancho
